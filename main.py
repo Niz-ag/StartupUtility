@@ -8,32 +8,42 @@ CONFIG_FILE = "utilities.json"
 
 def load_utilities():
     if os.path.exists(CONFIG_FILE):
-        with open(CONFIG_FILE, "r") as f:
-            return json.load(f)
+        try:
+            with open(CONFIG_FILE, "r") as f:
+                data = f.read().strip()
+                if not data:
+                    return [] 
+                return json.loads(data)
+        except (json.JSONDecodeError, ValueError):            
+            return []
     return []
+
 
 def save_utilities():
     with open(CONFIG_FILE, "w") as f:
         json.dump(utilities, f, indent=4)
 
 def add_utility():
-    filepath = filedialog.askopenfilename(filetypes=[("Executables", "*.exe"), ("All files", "*.*")])
-    if filepath:
-        utilities.append({"name": os.path.basename(filepath), "path": filepath, "enabled": True})
+    filepaths = filedialog.askopenfilenames(
+        filetypes=[("Executables", "*.exe"), ("All files", "*.*")]
+    )
+    if filepaths:
+        for filepath in filepaths:
+            utilities.append({"name": os.path.basename(filepath), "path": filepath, "enabled": True})
         save_utilities()
         refresh_list()
 
 def remove_selected():
     to_remove = []
     for i, (util, var) in enumerate(zip(utilities, checkbox_vars)):
-        if var.get():  
+        if var.get():
             to_remove.append(i)
 
     if not to_remove:
         messagebox.showinfo("Remove", "Tick at least one utility checkbox to remove.")
         return
 
-    for index in reversed(to_remove): 
+    for index in reversed(to_remove):
         utilities.pop(index)
 
     save_utilities()
