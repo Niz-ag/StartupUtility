@@ -18,21 +18,20 @@ This repo provides the compiled `StartupUtility.exe` along with helper scripts t
 
 ---
 
-
-⚙️ Installation & Usage
+## ⚙️ Installation & Usage
 ------------------------
 
-1. Extract the app
+1. **Extract the app**
    unzip startup_utility.zip -d startup_utility
    cd startup_utility
 
-2. Run the app (Windows .exe)
+2. **Run the app (Windows .exe)**
    - Double-click startup_utility.exe
    - Or from terminal:
      ./startup_utility.exe
 
-3. Enable auto-start on boot
+3. **Enable auto-start on boot**
    bash autostart.sh
 
-4. Remove from auto-start
+4. **Remove from auto-start**
    bash remove_autostart.sh
